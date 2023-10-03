@@ -1,4 +1,51 @@
-from django.http import Http404
+from django.db.models import Count
+from rest_framework import generics, filters
+from drf_api.permissions import IsOwnerOrReadOnly
+from .models import Profile
+from .serializers import ProfileSerializer
+
+
+class ProfileList(generics.ListCreateAPIView):
+
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.annotate(
+        posts_count=Count('owner__post', distinct=True),
+        followers_count=Count('owner__followed', distinct=True),
+        following_count=Count('owner__following', distinct=True)
+    ).order_by('-created_at')
+    filter_backends = [
+        filters.OrderingFilter
+    ]
+    ordering_fields = [
+        'post_count',
+        'followers_count',
+        'following_count',
+        'owner__following__created__at',
+        'owner__followed__created__at',
+    ]
+
+
+class ProfileDetail(generics.RetrieveDestroyAPIView):
+    """
+    Retrieve a like or delete it by id if you own it.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.annotate(
+        posts_count=Count('owner__post', distinct=True),
+        followers_count=Count('owner__followed', distinct=True),
+        following_count=Count('owner__following', distinct=True)
+    ).order_by('-created_at')
+
+
+
+
+
+
+
+
+
+""" from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -38,4 +85,4 @@ class ProfileDetail(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) """
