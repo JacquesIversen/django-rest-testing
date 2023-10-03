@@ -1,4 +1,56 @@
-from django.http import Http404
+from django.db.models import Count
+from rest_framework import generics, filters
+from drf_api.permissions import IsOwnerOrReadOnly
+from .models import Post
+from .serializers import PostSerializer
+
+
+class PostList(generics.ListCreateAPIView):
+
+    serializer_class = PostSerializer
+    queryset = Post.objects.annotate(
+        comments_count=Count('likes', distinct=True),
+        likes_count=Count('comment', distinct=True)
+        
+    ).order_by('-created_at')
+    filter_backends = [
+        filters.OrderingFilter
+    ]
+    ordering_fields = [
+        'post_count',
+        'followers_count',
+        'following_count',
+        'owner__following__created__at',
+        'owner__followed__created__at',
+    ]
+
+
+class PostDetail(generics.RetrieveDestroyAPIView):
+    """
+    Retrieve a like or delete it by id if you own it.
+    """
+    permission_classes = [IsOwnerOrReadOnly]
+    serializer_class = PostSerializer
+    queryset = Post.objects.annotate(
+        comments_count=Count('comment', distinct=True),
+        likes_count=Count('likes', distinct=True)
+    ).order_by('-created_at')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+""" from django.http import Http404
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -64,4 +116,4 @@ class PostDetail(APIView):
         return Response(
             status=status.HTTP_204_NO_CONTENT
         )
- 
+  """
