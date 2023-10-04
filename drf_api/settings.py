@@ -69,7 +69,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 """ DEBUG = False """
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '<apirestji>.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'apirestji-977cdaa6268c.herokuapp.com']
 
 
 # Application definition
