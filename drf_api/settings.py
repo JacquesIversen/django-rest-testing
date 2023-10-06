@@ -71,7 +71,7 @@ DEBUG = 'DEV' in os.environ
 DEBUG = True """
 
 ALLOWED_HOSTS = [
-    'localhost', 'https://fuckdigdinso-5ce81012fee7.herokuapp.com/',
+    'localhost', 'https://fuckdigdinso-5ce81012fee7.herokuapp.com',
     ]
 
 
