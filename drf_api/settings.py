@@ -71,7 +71,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost', 'https://fuckdigdinso-5ce81012fee7.herokuapp.com',
+    'localhost', 'fuckdigdinso-5ce81012fee7.herokuapp.com',
     ]
 
 
