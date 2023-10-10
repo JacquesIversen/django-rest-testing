@@ -71,7 +71,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost', 'fuckdigdinso-5ce81012fee7.herokuapp.com',
+    '8000-jacquesiver-djangorestt-zesjek4o4ri.ws-eu105.gitpod.io', 'fuckdigdinso-5ce81012fee7.herokuapp.com',
     ]
 
 
@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'django.contrib.sites',
+    'django.contrib.humanize',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
